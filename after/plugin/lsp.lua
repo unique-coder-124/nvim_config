@@ -52,13 +52,36 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
   vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
   vim.keymap.set({"n", "i"}, '<M-d>', function() ToggleCMP() end, opts)
+  vim.keymap.set("n", "<leader>vcd", function()
+    local diag = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })[1]
+    if diag and diag.message then
+        vim.fn.setreg("+", diag.message)  -- Copy to system clipboard
+        print("Copied diagnostic message!")  -- Notify user
+    else
+        print("No diagnostic message found.")
+    end
+  end, { desc = "Copy LSP diagnostic message" })
 end)
 
-lsp.setup()
-
+lsp.setup({
+  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  handlers = {
+    ['textDocument/publishDiagnostics'] = function(err, result, context, config)
+      if err then print(err) end
+    end,
+  },
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = {'vim'},
+        maxLineLength = 120,
+      }
+    }
+  }
+})
 
 -- keybind help
---
+
 -- the key combination <leader> is the space bar
 -- the keys gd trigger the go to definition
 -- the key K triggers the hover

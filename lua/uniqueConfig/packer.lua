@@ -1,16 +1,16 @@
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
 -- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
+vim.cmd([[packadd packer.nvim]])
 
 return require('packer').startup(function(use)
   -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+  use('wbthomason/packer.nvim')
 
-  use {
+  use({
     'nvim-telescope/telescope.nvim', tag = '0.1.5',
     requires = { 'nvim-lua/plenary.nvim' }
-  }
+  })
 
   use({
       'rose-pine/neovim',
@@ -27,7 +27,9 @@ return require('packer').startup(function(use)
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
 
-  use {
+  use('wellle/context.vim')
+
+  use({
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v1.x',
     requires = {
@@ -48,5 +50,5 @@ return require('packer').startup(function(use)
       {'L3MON4D3/LuaSnip'},
       {'rafamadriz/friendly-snippets'},
     }
-  }
+  })
 end)

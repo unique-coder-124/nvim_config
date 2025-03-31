@@ -1,7 +1,28 @@
 vim.keymap.set("n", "<leader>ex", vim.cmd.Ex)
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+
+-- mappings for moving current selection up or down
+local keysUp = {"K", "<M-k>", "<M-Up>"}
+local keysDown = {"J", "<M-j>", "<M-Down>"}
+
+for _, key in ipairs(keysUp) do
+  vim.keymap.set("v", key, ":m '<-2<CR>gv=gv")
+  vim.keymap.set("n", key, "V:m '<-2<CR>gv=gv<C-c>")
+end
+
+for _, key in ipairs(keysDown) do
+  vim.keymap.set("v", key, ":m '>+1<CR>gv=gv")
+  vim.keymap.set("n", key, "V:m '>+1<CR>gv=gv<C-c>")
+end
+
+-- mappings for moving current line up or down
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<M-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<M-j>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv")
+
 
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")

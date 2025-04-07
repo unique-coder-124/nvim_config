@@ -37,6 +37,8 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("v", "<Tab>", ">gv")
 vim.keymap.set("v", "<S-Tab>", "<gv")
 
+vim.keymap.set("n", "<S-Tab>", "V<")
+
 vim.keymap.set("n", "<C-_>", "gcc", { remap = true })
 vim.keymap.set("v", "<C-_>", "gcgv", { remap = true })
 

@@ -29,13 +29,13 @@ lsp.setup_nvim_cmp({
 local active = true
 
 function ToggleCMP()
-    if active then
-        cmp.setup({ enabled = false })
-        active = false
-    else
-        cmp.setup({ enabled = true })
-        active = true
-    end
+  if active then
+    cmp.setup({ enabled = false })
+    active = false
+  else
+    cmp.setup({ enabled = true })
+    active = true
+  end
 end
 
 lsp.on_attach(function(client, bufnr)
@@ -55,10 +55,10 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vcd", function()
     local diag = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })[1]
     if diag and diag.message then
-        vim.fn.setreg("+", diag.message)  -- Copy to system clipboard
-        print("Copied diagnostic message!")  -- Notify user
+      vim.fn.setreg("+", diag.message)  -- Copy to system clipboard
+      print("Copied diagnostic message!")  -- Notify user
     else
-        print("No diagnostic message found.")
+      print("No diagnostic message found.")
     end
   end, { desc = "Copy LSP diagnostic message" })
 end)

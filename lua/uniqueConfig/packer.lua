@@ -20,6 +20,9 @@ return require('packer').startup(function(use)
     end
   })
 
+  use('vim-airline/vim-airline')
+  use('vim-airline/vim-airline-themes')
+
   use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use('nvim-treesitter/playground')
   use('ThePrimeagen/vim-be-good')

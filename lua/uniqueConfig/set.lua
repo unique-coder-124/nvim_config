@@ -1,5 +1,7 @@
 vim.opt.guicursor = "a:block"
 
+vim.opt.laststatus = 3
+
 vim.g.mapleader = " "
 
 vim.o.mouse = ""

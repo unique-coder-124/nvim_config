@@ -35,6 +35,8 @@ return require('packer').startup(function(use)
 
   use('lewis6991/gitsigns.nvim')
 
+  use('lewis6991/satellite.nvim')
+
   use('vim-airline/vim-airline')
   use('vim-airline/vim-airline-themes')
 

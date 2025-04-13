@@ -20,6 +20,21 @@ return require('packer').startup(function(use)
     end
   })
 
+  use({
+    "Isrothy/neominimap.nvim",
+    config = function()
+      -- Neominimap configuration
+      vim.g.neominimap = {
+        auto_enable = true, -- Automatically enable minimap
+      }
+
+      -- Set keybindings
+      vim.keymap.set("n", "<leader>mm", "<cmd>Neominimap toggle<cr>", { desc = "Toggle global minimap" })
+    end,
+  })
+
+  use('lewis6991/gitsigns.nvim')
+
   use('vim-airline/vim-airline')
   use('vim-airline/vim-airline-themes')
 

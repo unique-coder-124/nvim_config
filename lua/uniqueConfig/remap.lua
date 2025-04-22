@@ -18,6 +18,8 @@ vim.keymap.set("n", "<leader>wl", function()
   vim.opt.wrap = not vim.opt.wrap:get()
 end)
 
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")

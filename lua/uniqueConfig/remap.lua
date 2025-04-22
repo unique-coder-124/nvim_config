@@ -48,6 +48,6 @@ vim.keymap.set("v", "<C-_>", "gcgv", { remap = true })
 
 vim.keymap.set("n", "<leader><leader>", ":so<CR>")
 
-vim.keymap.set("n", "<M-v>", ":vsplit<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-v>", ":vsplit<CR><C-w>l", { noremap = true, silent = true })
 
-vim.keymap.set("n", "<M-h>", ":split<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-h>", ":split<CR><C-w>j", { noremap = true, silent = true })

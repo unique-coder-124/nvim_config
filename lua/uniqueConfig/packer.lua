@@ -1,10 +1,6 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
--- Only required if you have packer configured as `opt`
 vim.cmd([[packadd packer.nvim]])
 
 return require('packer').startup(function(use)
-  -- Packer can manage itself
   use('wbthomason/packer.nvim')
 
   use({
@@ -23,13 +19,11 @@ return require('packer').startup(function(use)
   use({
     "Isrothy/neominimap.nvim",
     config = function()
-      -- Neominimap configuration
       vim.g.neominimap = {
-        auto_enable = true, -- Automatically enable minimap
+        auto_enable = false,
       }
 
-      -- Set keybindings
-      vim.keymap.set("n", "<leader>mm", "<cmd>Neominimap toggle<cr>", { desc = "Toggle global minimap" })
+      vim.keymap.set("n", "<leader>mm", "<cmd>Neominimap toggle<cr>")
     end,
   })
 
@@ -49,7 +43,7 @@ return require('packer').startup(function(use)
   use('mbbill/undotree')
   use('tpope/vim-fugitive')
 
-  use('wellle/context.vim')
+  use('nvim-treesitter/nvim-treesitter-context')
 
   use({
     'VonHeikemen/lsp-zero.nvim',

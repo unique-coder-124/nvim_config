@@ -47,3 +47,25 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("startinsert")
+  end,
+})
+
+local shell_pref_order = {
+  [1] = "pwsh.exe",
+  [2] = "powershell.exe",
+  [3] = "cmd.exe",
+  [4] = "zsh",
+  [5] = "bash"
+}
+
+for _, shell in ipairs(shell_pref_order) do
+  if vim.fn.executable(shell) == 1 then
+    vim.opt.shell = shell
+    break
+  end
+end

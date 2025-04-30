@@ -66,6 +66,14 @@ local shell_pref_order = {
 for _, shell in ipairs(shell_pref_order) do
   if vim.fn.executable(shell) == 1 then
     vim.opt.shell = shell
+    vim.g.terminal_emulator = shell
+    if shell == "pwsh.exe" or shell == "powershell.exe" then
+      vim.opt.shellcmdflag = "-NoLogo -NoProfile -Command \"$PSStyle.OutputRendering = 'PlainText';"
+      vim.opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+      vim.opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+      vim.opt.shellquote = ""
+      vim.opt.shellxquote = ""
+    end
     break
   end
 end

@@ -13,6 +13,9 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "netrw",
   callback = function()
     vim.opt_local.relativenumber = true
+    if vim.w.netrw_explore_list == nil then
+      vim.w.netrw_explore_list = {}
+    end
   end,
 })
 

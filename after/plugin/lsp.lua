@@ -80,16 +80,16 @@ lsp.setup({
   }
 })
 
--- keybind help
+-- Keybind help
 
--- the key combination <leader> is the space bar
--- the keys gd trigger the go to definition
--- the key K triggers the hover
--- the key <leader>vws triggers the workspace symbol search which is a fuzzy search for symbols in the workspace
--- the key <leader>vd triggers the diagnostic float
--- the keys [d and ]d trigger the next and previous diagnostic
--- the key <leader>vca triggers the code action which is a list of possible actions to take
--- the key <leader>vrr triggers the references
--- the key <leader>vrn triggers the rename
--- the key <C-h> triggers the signature help which is a list of possible signatures for the function meaning the possible arguments and return types
--- the key <M-d> triggers the toggle of the completion menu
+-- The key combination <leader> is the space bar
+-- The keys gd trigger the go to definition
+-- The key K triggers the hover
+-- The key <leader>vws triggers the workspace symbol search which is a fuzzy search for symbols in the workspace
+-- The key <leader>vd triggers the diagnostic float
+-- The keys [d and ]d trigger the next and previous diagnostic
+-- The key <leader>vca triggers the code action which is a list of possible actions to take
+-- The key <leader>vrr triggers the references
+-- The key <leader>vrn triggers the rename
+-- The key <C-h> triggers the signature help which is a list of possible signatures for the function meaning the possible arguments and return types
+-- The key <M-d> triggers the toggle of the completion menu

@@ -27,6 +27,8 @@ return require('packer').startup(function(use)
     end,
   })
 
+  use('Aasim-A/scrollEOF.nvim')
+
   use('lewis6991/gitsigns.nvim')
 
   use('lewis6991/satellite.nvim')

@@ -9,6 +9,13 @@ vim.o.mouse = ""
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    vim.opt_local.relativenumber = true
+  end,
+})
+
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2

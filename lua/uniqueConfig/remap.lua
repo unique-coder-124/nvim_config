@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 vim.keymap.set("n", "<leader>ex", vim.cmd.Ex)
 
 -- mappings for moving current selection up or down
@@ -14,7 +15,14 @@ for _, key in ipairs(keysDown) do
   vim.keymap.set("n", key, "V:m '>+1<CR>gv=gv<C-c>")
 end
 
-vim.keymap.set("n", "<leader>wl", function() 
+vim.keymap.set("v", [[S"]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/"\1\2"<CR>]])
+vim.keymap.set("v", [[S']], [[:'<,'>s/\%V\(.*\)\%V\(.\)/'\1\2'<CR>]])
+vim.keymap.set("v", [[S`]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/`\1\2`<CR>]])
+vim.keymap.set("v", [[S(]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/(\1\2)<CR>]])
+vim.keymap.set("v", [[S[]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/[\1\2]<CR>]])
+vim.keymap.set("v", [[S{]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/{\1\2}<CR>]])
+
+vim.keymap.set("n", "<leader>wl", function()
   vim.opt.wrap = not vim.opt.wrap:get()
 end)
 

@@ -1,72 +1,117 @@
 vim.cmd([[packadd packer.nvim]])
-
 return require('packer').startup(function(use)
-  use('wbthomason/packer.nvim')
+  -- Packer itself: always latest
+  use { 'wbthomason/packer.nvim', lock = false }
 
-  use({
-    'nvim-telescope/telescope.nvim', tag = '0.1.5',
-    requires = { 'nvim-lua/plenary.nvim' }
-  })
+  -- Fuzzy finding (safe updates)
+  use {
+    'nvim-telescope/telescope.nvim',
+    tag      = '0.1.5',
+    requires = { 'nvim-lua/plenary.nvim' },
+    lock     = false,
+  }
 
-  use({
+  -- Theme: pin so your colors never shift under you
+  use {
     'rose-pine/neovim',
-    as = 'rose-pine',
-    config = function()
+    as       = 'rose-pine',
+    tag      = 'v3.0.2',
+    lock     = true,
+    config   = function()
       vim.cmd('colorscheme rose-pine')
-    end
-  })
-
-  use({
-    "Isrothy/neominimap.nvim",
-    config = function()
-      vim.g.neominimap = {
-        auto_enable = false,
-      }
-
-      vim.keymap.set("n", "<leader>mm", "<cmd>Neominimap toggle<cr>")
     end,
-  })
+  }
 
-  use('Aasim-A/scrollEOF.nvim')
+  -- Minimap utility (pin to avoid API churn)
+  use {
+    'Isrothy/neominimap.nvim',
+    tag    = 'v3.14.1',
+    lock   = true,
+    config = function()
+      vim.g.neominimap = { auto_enable = false }
+      vim.keymap.set('n', '<leader>mm', '<cmd>Neominimap toggle<cr>')
+    end,
+  }
 
-  -- use('lewis6991/gitsigns.nvim')
+  --[[ commented plugins (also pinned) ]]
+  -- use {
+  --   'Aasim-A/scrollEOF.nvim',
+  --   tag  = '1.2.7',
+  --   lock = true,
+  -- }
+  --
+  -- use {
+  --   'lewis6991/gitsigns.nvim',
+  --   tag  = 'v1.0.2',
+  --   lock = true,
+  -- }
+  --
+  -- use {
+  --   'lewis6991/satellite.nvim',
+  --   tag  = 'v1.0.0',
+  --   lock = true,
+  -- }
 
-  -- use('lewis6991/satellite.nvim')
+  -- Statusline: pin for visual consistency
+  use { 'vim-airline/vim-airline',        lock = true }
+  use { 'vim-airline/vim-airline-themes', lock = true }
 
-  use('vim-airline/vim-airline')
-  use('vim-airline/vim-airline-themes')
+  -- Indent guides: pin for consistency
+  use { 'lukas-reineke/indent-blankline.nvim', lock = true }
 
-  use('lukas-reineke/indent-blankline.nvim')
+  -- Treesitter core: always get the latest parsers & fixes
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run  = ':TSUpdate',
+    lock = false,
+  }
 
-  use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
-  use('nvim-treesitter/playground')
-  use('ThePrimeagen/vim-be-good')
-  use('ThePrimeagen/harpoon')
-  use('mbbill/undotree')
-  use('tpope/vim-fugitive')
+  -- Playground (experimental): safe to auto‑update
+  use {
+    'nvim-treesitter/playground',
+    lock = false,
+  }
 
-  use('nvim-treesitter/nvim-treesitter-context')
+  -- Learning games & project nav: pin for stability
+  use { 'ThePrimeagen/vim-be-good', lock = true }
+  use { 'ThePrimeagen/harpoon',    lock = true }
 
-  use({
+  -- Undo tree: pin so UI never shifts
+  use { 'mbbill/undotree', lock = true }
+
+  -- Git porcelain: pin to avoid surprises
+  use { 'tpope/vim-fugitive', lock = true }
+
+  -- Treesitter‑context: auto‑update alongside treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter-context',
+    lock = false,
+  }
+
+  -- LSP + completion (pin everything in this stack)
+  use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v1.x',
+    lock   = true,
     requires = {
-      -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/mason.nvim'},
-      {'williamboman/mason-lspconfig.nvim'},
+      -- Core LSP configs (pin to avoid new definitions breaking you)
+      { 'neovim/nvim-lspconfig', lock = true },
 
-      -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
+      -- Mason package manager (you already pinned these)
+      { 'williamboman/mason.nvim',            tag = 'v1.11.0', lock = true },
+      { 'williamboman/mason-lspconfig.nvim',  tag = 'v1.31.0', lock = true },
 
-      -- Snippets
-      {'L3MON4D3/LuaSnip'},
-      {'rafamadriz/friendly-snippets'},
+      -- Completion engine + sources (pin to avoid API churn)
+      { 'hrsh7th/nvim-cmp',       lock = true },
+      { 'hrsh7th/cmp-buffer',     lock = true },
+      { 'hrsh7th/cmp-path',       lock = true },
+      { 'saadparwaiz1/cmp_luasnip', lock = true },
+      { 'hrsh7th/cmp-nvim-lsp',   lock = true },
+      { 'hrsh7th/cmp-nvim-lua',   lock = true },
+
+      -- Snippets engine (major‑version pinned) & repo (safe)
+      { 'L3MON4D3/LuaSnip',             tag = 'v2.*', lock = true },
+      { 'rafamadriz/friendly-snippets', lock = false },
     }
-  })
+  }
 end)

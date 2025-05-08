@@ -15,12 +15,35 @@ for _, key in ipairs(keysDown) do
   vim.keymap.set("n", key, "V:m '>+1<CR>gv=gv<C-c>")
 end
 
-vim.keymap.set("v", [[S"]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/"\1\2"<CR>]])
-vim.keymap.set("v", [[S']], [[:'<,'>s/\%V\(.*\)\%V\(.\)/'\1\2'<CR>]])
-vim.keymap.set("v", [[S`]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/`\1\2`<CR>]])
-vim.keymap.set("v", [[S(]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/(\1\2)<CR>]])
-vim.keymap.set("v", [[S[]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/[\1\2]<CR>]])
-vim.keymap.set("v", [[S{]], [[:'<,'>s/\%V\(.*\)\%V\(.\)/{\1\2}<CR>]])
+local surrounders = {
+  [ '"' ] = '"',
+  [ "'" ] = "'",
+  [ "`" ] = "`",
+  [ "(" ] = ")",
+  [ "[" ] = "]",
+  [ "{" ] = "}"
+}
+
+for open, close in pairs(surrounders) do
+  vim.keymap.set('v', 'S'..open, '<Esc>`>a'..close..'<Esc>`<i'..open..'<Esc>gvlol')
+
+  vim.keymap.set('i', close, function()
+    local col  = vim.fn.col('.')
+    local line = vim.api.nvim_get_current_line()
+    if line:sub(col, col) == close then
+      local keys = vim.api.nvim_replace_termcodes('<ESC>la', true, false, true)
+      vim.api.nvim_feedkeys(keys, 'n', true)
+    else
+      local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
+      vim.api.nvim_feedkeys(keys, 'n', true)
+    end
+  end)
+
+  vim.keymap.set('i', '<M-'..close..'>', function()
+    local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
+    vim.api.nvim_feedkeys(keys, 'n', true)
+  end)
+end
 
 vim.keymap.set("n", "<leader>wl", function()
   vim.opt.wrap = not vim.opt.wrap:get()

@@ -66,12 +66,12 @@ vim.api.nvim_create_autocmd("TermOpen", {
 })
 
 local shell_pref_order = {
-  [1] = "fish",
-  [2] = "pwsh.exe",
-  [3] = "powershell.exe",
-  [4] = "cmd.exe",
-  [5] = "zsh",
-  [6] = "bash"
+  "fish",
+  "pwsh.exe",
+  "powershell.exe",
+  "cmd.exe",
+  "zsh",
+  "bash"
 }
 
 for _, shell in ipairs(shell_pref_order) do

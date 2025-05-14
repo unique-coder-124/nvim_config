@@ -49,6 +49,17 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "120"
 
+vim.opt.list = true
+
+vim.opt.listchars:append {
+  lead  = "·",
+  space = " ",
+  trail = "•",
+  tab   = "⇥ ",
+  extends  = ">",
+  precedes = "<",
+}
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "term://*",
   callback = function()

@@ -19,6 +19,17 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+if vim.fn.argc() == 0 then
+  vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+      vim.cmd("enew")
+      vim.bo.buftype = "nofile"
+      vim.bo.bufhidden = "hide"
+      vim.bo.swapfile = false
+    end
+  })
+end
+
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2

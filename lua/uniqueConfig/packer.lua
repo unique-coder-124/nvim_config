@@ -29,7 +29,7 @@ return require('packer').startup(function(use)
     lock   = true,
     config = function()
       vim.g.neominimap = { auto_enable = false }
-      vim.keymap.set('n', '<leader>mm', '<cmd>Neominimap toggle<cr>')
+      vim.keymap.set('n', '<leader>mm', '<cmd>Neominimap Toggle<cr>')
     end,
   }
 

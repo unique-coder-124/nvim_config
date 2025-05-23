@@ -17,15 +17,15 @@ local function align_backslashes(opts)
   -- 1) Reset any spaces before a trailing '\' in the range,
   --    but do it silently so it won’t error if no matches exist.
   vim.cmd(string.format(
-    "silent! %d,%ds/\\s\\+\\\\$/\\\\/",
-    start_line, end_line
+  "silent! %d,%ds/\\s\\+\\\\$/\\\\/",
+  start_line, end_line
   ))
 
   -- 2) Pull in those lines
   local lines = vim.api.nvim_buf_get_lines(bufnr,
-                                           start_line - 1,
-                                           end_line,
-                                           false)
+  start_line - 1,
+  end_line,
+  false)
 
   -- 3) Find max display-width among lines that end in '\'
   local max_width = 0
@@ -40,7 +40,7 @@ local function align_backslashes(opts)
   -- 4) Rebuild each line: pad before the '\' so they all line up
   for idx, line in ipairs(lines) do
     if vim.endswith(line, "\\") then
-      -- strip off the backslash to measure the “core” width
+      -- Strip off the backslash to measure the “core” width
       local core = line:sub(1, -2)
       local w    = vim.fn.strdisplaywidth(core)
       lines[idx] = core .. string.rep(" ", max_width - w) .. "\\"
@@ -49,15 +49,17 @@ local function align_backslashes(opts)
 
   -- 5) Write them back
   vim.api.nvim_buf_set_lines(bufnr,
-                             start_line - 1,
-                             end_line,
-                             false,
-                             lines)
+  start_line - 1,
+  end_line,
+  false,
+  lines)
+
+  vim.api.nvim_win_set_cursor(bufnr, {end_line, 0})
 end
 
 -- Create the command, allowing a visual or explicit range
 vim.api.nvim_create_user_command(
-  'AlignBackSlashes',
-  align_backslashes,
-  { range = true }
+'AlignBackSlashes',
+align_backslashes,
+{ range = true }
 )

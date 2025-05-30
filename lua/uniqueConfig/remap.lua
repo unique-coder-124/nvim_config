@@ -77,6 +77,41 @@ for open, close in pairs(surrounders) do
   end
 end
 
+-- 1) In the quickfix window: <CR>, n, p do your quickfix stuff
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    -- <CR>: open entry in the main window
+    vim.keymap.set("n", "<CR>", function()
+      local lnum = vim.fn.line(".")
+      vim.cmd("wincmd p")     -- back to main window
+      vim.cmd("cc " .. lnum)  -- go to that entry
+      vim.cmd("wincmd p")     -- back to main window
+    end, { buffer = true, silent = true })
+
+    -- n/p: next/prev in quickfix
+    vim.keymap.set("n", "n", "<cmd>cnext<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "p", "<cmd>cprev<CR>", { buffer = true, silent = true })
+  end,
+})
+
+-- 2) Everywhere else: Ctrl-n / Ctrl-p jump through quickfix only if it's open
+local function ctrl_qf(nav)
+  -- winid = 0 means no quickfix window open
+  local winid = vim.fn.getqflist({ winid = 0 }).winid
+  if winid ~= 0 and vim.bo.filetype ~= "qf" then
+    vim.cmd((nav == "next") and "cnext" or "cprev")
+  else
+    -- fallback to your normal <C-n>/<C-p>
+    local key = (nav == "next") and "<C-n>" or "<C-p>"
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, false, true),
+                          "n", true)
+  end
+end
+
+vim.keymap.set("n", "<M-n>", function() ctrl_qf("next") end, { noremap = true, silent = true })
+vim.keymap.set("n", "<M-p>", function() ctrl_qf("prev") end, { noremap = true, silent = true })
+
 vim.keymap.set("n", "<leader>wl", function()
   vim.opt.wrap = not vim.opt.wrap:get()
 end)

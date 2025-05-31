@@ -166,8 +166,13 @@ vim.api.nvim_create_user_command('UpdateClangdFlags', function(opts)
   end
 
   -- write back
-  local wf = io.open(path, 'w')
-  for _, ln in ipairs(out) do wf:write(ln, '\n') end
+  local wf, err = io.open(path, 'w')
+  if not wf then
+    error("Failed to open file for writing: " .. err)
+  end
+  for _, ln in ipairs(out) do
+    wf:write(ln, '\n')
+  end
   wf:close()
 
   print('.clangd updated (now has ' .. #final .. ' includes).')

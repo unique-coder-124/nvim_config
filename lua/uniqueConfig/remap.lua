@@ -90,8 +90,8 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = true, silent = true })
 
     -- n/p: next/prev in quickfix
-    vim.keymap.set("n", "n", "<cmd>cnext<CR>", { buffer = true, silent = true })
-    vim.keymap.set("n", "p", "<cmd>cprev<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "n", "<cmd>cnext<CR><cmd>wincmd p<CR>", { buffer = true, silent = true })
+    vim.keymap.set("n", "p", "<cmd>cprev<CR><cmd>wincmd p<CR>", { buffer = true, silent = true })
   end,
 })
 

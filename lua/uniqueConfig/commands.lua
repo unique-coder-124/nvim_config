@@ -65,14 +65,25 @@ align_backslashes,
 )
 
 vim.api.nvim_create_user_command('UpdateClangdFlags', function(opts)
-  local std_stuff = {
-    '/usr/lib/llvm-14/lib/clang/14.0.0/include',
-    '/usr/local/include',
-    '/usr/include/x86_64-linux-gnu',
-  }
-  local common_lib = {
-    '/usr/include',
-  }
+  local std_stuff = {}
+  local common_lib = {}
+
+  if vim.loop.os_uname().sysname == "Windows_NT" then
+    std_stuff = {
+      "C:/Users/Michael_dev/scoop/apps/mingw-winlibs-llvm-msvcrt/14.2.0-19.1.7-12.0.0-r3/lib/clang/19/include",
+      "C:/Users/Michael_dev/scoop/apps/mingw-winlibs-llvm-msvcrt/14.2.0-19.1.7-12.0.0-r3/x86_64-w64-mingw32/include",
+      "C:/Users/Michael_dev/scoop/apps/mingw-winlibs-llvm-msvcrt/14.2.0-19.1.7-12.0.0-r3/include",
+    }
+  else
+    std_stuff = {
+      "/usr/lib/llvm-14/lib/clang/14.0.0/include",
+      "/usr/local/include",
+      "/usr/include/x86_64-linux-gnu",
+    }
+    common_lib = {
+      "/usr/include",
+    }
+  end
   local project_path = vim.fn.getcwd()
 
   local path = project_path .. '/.clangd'

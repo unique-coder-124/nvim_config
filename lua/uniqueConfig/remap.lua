@@ -53,11 +53,6 @@ for open, close in pairs(surrounders) do
         vim.api.nvim_feedkeys(keys, 'n', true)
       end
     end)
-
-    vim.keymap.set('i', '<M-'..close..'>', function()
-      local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
-      vim.api.nvim_feedkeys(keys, 'n', true)
-    end)
   else
     vim.keymap.set('i', open, function()
       local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
@@ -75,6 +70,11 @@ for open, close in pairs(surrounders) do
       end
     end)
   end
+
+  vim.keymap.set('i', '<M-'..close..'>', function()
+    local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
+    vim.api.nvim_feedkeys(keys, 'n', true)
+  end)
 end
 
 -- 1) In the quickfix window: <CR>, n, p do your quickfix stuff
@@ -151,3 +151,6 @@ vim.keymap.set("n", "<leader><leader>", ":so<CR>")
 vim.keymap.set("n", "<M-v>", ":vsplit<CR><C-w>l", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<M-h>", ":split<CR><C-w>j", { noremap = true, silent = true })
+
+vim.keymap.set("n", "j", "jzz", {remap = true })
+vim.keymap.set("n", "k", "kzz", {remap = true })

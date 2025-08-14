@@ -41,40 +41,40 @@ end)
 for open, close in pairs(surrounders) do
   vim.keymap.set('v', 'S'..open, '<Esc>`>a'..close..'<Esc>`<i'..open..'<Esc>gvlol')
 
-  if (open == close) then
-    vim.keymap.set('i', open, function()
-      local col  = vim.fn.col('.')
-      local line = vim.api.nvim_get_current_line()
-      if line:sub(col, col) == close then
-        local keys = vim.api.nvim_replace_termcodes('<ESC>la', true, false, true)
-        vim.api.nvim_feedkeys(keys, 'n', true)
-      else
-        local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
-        vim.api.nvim_feedkeys(keys, 'n', true)
-      end
-    end)
-  else
-    vim.keymap.set('i', open, function()
-      local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
-      vim.api.nvim_feedkeys(keys, 'n', true)
-    end)
-    vim.keymap.set('i', close, function()
-      local col  = vim.fn.col('.')
-      local line = vim.api.nvim_get_current_line()
-      if line:sub(col, col) == close then
-        local keys = vim.api.nvim_replace_termcodes('<ESC>la', true, false, true)
-        vim.api.nvim_feedkeys(keys, 'n', true)
-      else
-        local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
-        vim.api.nvim_feedkeys(keys, 'n', true)
-      end
-    end)
-  end
-
-  vim.keymap.set('i', '<M-'..close..'>', function()
-    local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
-    vim.api.nvim_feedkeys(keys, 'n', true)
-  end)
+  -- if (open == close) then
+  --   vim.keymap.set('i', open, function()
+  --     local col  = vim.fn.col('.')
+  --     local line = vim.api.nvim_get_current_line()
+  --     if line:sub(col, col) == close then
+  --       local keys = vim.api.nvim_replace_termcodes('<ESC>la', true, false, true)
+  --       vim.api.nvim_feedkeys(keys, 'n', true)
+  --     else
+  --       local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
+  --       vim.api.nvim_feedkeys(keys, 'n', true)
+  --     end
+  --   end)
+  -- else
+  --   vim.keymap.set('i', open, function()
+  --     local keys = vim.api.nvim_replace_termcodes(open..close..'<Esc>i', true, false, true)
+  --     vim.api.nvim_feedkeys(keys, 'n', true)
+  --   end)
+  --   vim.keymap.set('i', close, function()
+  --     local col  = vim.fn.col('.')
+  --     local line = vim.api.nvim_get_current_line()
+  --     if line:sub(col, col) == close then
+  --       local keys = vim.api.nvim_replace_termcodes('<ESC>la', true, false, true)
+  --       vim.api.nvim_feedkeys(keys, 'n', true)
+  --     else
+  --       local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
+  --       vim.api.nvim_feedkeys(keys, 'n', true)
+  --     end
+  --   end)
+  -- end
+  --
+  -- vim.keymap.set('i', '<M-'..close..'>', function()
+  --   local keys = vim.api.nvim_replace_termcodes(close, true, false, true)
+  --   vim.api.nvim_feedkeys(keys, 'n', true)
+  -- end)
 end
 
 -- 1) In the quickfix window: <CR>, n, p do your quickfix stuff

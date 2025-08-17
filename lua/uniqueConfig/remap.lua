@@ -109,6 +109,74 @@ local function ctrl_qf(nav)
   end
 end
 
+local ns = vim.api.nvim_create_namespace("sticky_marks")
+local marks = {} -- map mark char -> extmark id (per buffer)
+
+-- helper: set extmark at cursor for given mark
+local function set_extmark(char)
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  row = row - 1
+  -- clear old extmark if exists
+  if marks[char] then
+    vim.api.nvim_buf_del_extmark(0, ns, marks[char])
+  end
+  -- create new extmark
+  local id = vim.api.nvim_buf_set_extmark(0, ns, row, col, {})
+  marks[char] = id
+end
+
+-- redefine 'm' to handle both lowercase + uppercase
+vim.keymap.set("n", "m", function()
+  local char = vim.fn.getcharstr()
+
+  if char:match("%l") then
+    -- lowercase mark -> only extmark
+    set_extmark(char)
+  elseif char:match("%u") then
+    -- uppercase mark -> normal mark first
+    vim.cmd("normal! m" .. char)
+    -- also set sticky extmark
+    set_extmark(char)
+  else
+    print("Invalid mark: " .. char)
+  end
+end)
+
+-- redefine '`' motion
+vim.keymap.set("n", "`", function()
+  local char = vim.fn.getcharstr()
+
+  if char:match("%l") then
+    -- lowercase -> just jump to extmark
+    local id = marks[char]
+    if id then
+      local pos = vim.api.nvim_buf_get_extmark_by_id(0, ns, id, {})
+      if #pos == 2 then
+        vim.api.nvim_win_set_cursor(0, {pos[1] + 1, pos[2]})
+      else
+        print("No extmark for '" .. char .. "'")
+      end
+    else
+      print("No extmark for '" .. char .. "'")
+    end
+
+  elseif char:match("%u") then
+    -- uppercase -> jump to file first (normal mark)
+    vim.cmd("normal! `" .. char)
+
+    -- then refine with extmark if it exists
+    local id = marks[char]
+    if id then
+      local pos = vim.api.nvim_buf_get_extmark_by_id(0, ns, id, {})
+      if #pos == 2 then
+        vim.api.nvim_win_set_cursor(0, {pos[1] + 1, pos[2]})
+      end
+    end
+  else
+    print("Invalid mark: " .. char)
+  end
+end)
+
 vim.keymap.set("n", "<M-n>", function() ctrl_qf("next") end, { noremap = true, silent = true })
 vim.keymap.set("n", "<M-p>", function() ctrl_qf("prev") end, { noremap = true, silent = true })
 

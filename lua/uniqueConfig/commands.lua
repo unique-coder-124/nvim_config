@@ -64,6 +64,14 @@ align_backslashes,
 { range = true }
 )
 
+vim.api.nvim_create_user_command('Scratch', function()
+  vim.cmd("enew")
+  vim.bo.buftype = "nofile"
+  vim.bo.bufhidden = "hide"
+  vim.bo.swapfile = false
+end,
+{})
+
 vim.api.nvim_create_user_command('UpdateClangdFlags', function(opts)
   local std_stuff = {}
   local common_lib = {}

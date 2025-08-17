@@ -129,17 +129,9 @@ end
 vim.keymap.set("n", "m", function()
   local char = vim.fn.getcharstr()
 
-  if char:match("%l") then
-    -- lowercase mark -> only extmark
-    set_extmark(char)
-  elseif char:match("%u") then
-    -- uppercase mark -> normal mark first
-    vim.cmd("normal! m" .. char)
-    -- also set sticky extmark
-    set_extmark(char)
-  else
-    print("Invalid mark: " .. char)
-  end
+  vim.cmd("normal! m" .. char)
+  -- also set sticky extmark
+  set_extmark(char)
 end)
 
 -- redefine '`' motion

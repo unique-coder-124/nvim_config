@@ -91,27 +91,27 @@ return require('packer').startup(function(use)
   -- LSP + completion (pin everything in this stack)
   use {
     'VonHeikemen/lsp-zero.nvim',
-    branch = 'v1.x',
-    lock   = true,
+    branch = 'v3.x',
+    lock   = false,
     requires = {
       -- Core LSP configs (pin to avoid new definitions breaking you)
-      { 'neovim/nvim-lspconfig', lock = true },
+      { 'neovim/nvim-lspconfig' },
 
       -- Mason package manager (you already pinned these)
-      { 'williamboman/mason.nvim',            tag = 'v1.11.0', lock = true },
-      { 'williamboman/mason-lspconfig.nvim',  tag = 'v1.31.0', lock = true },
+      { 'williamboman/mason.nvim' },
+      { 'williamboman/mason-lspconfig.nvim' },
 
       -- Completion engine + sources (pin to avoid API churn)
-      { 'hrsh7th/nvim-cmp',       lock = true },
-      { 'hrsh7th/cmp-buffer',     lock = true },
-      { 'hrsh7th/cmp-path',       lock = true },
-      { 'saadparwaiz1/cmp_luasnip', lock = true },
-      { 'hrsh7th/cmp-nvim-lsp',   lock = true },
-      { 'hrsh7th/cmp-nvim-lua',   lock = true },
+      { 'hrsh7th/nvim-cmp' },
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-nvim-lua' },
 
       -- Snippets engine (major‑version pinned) & repo (safe)
-      { 'L3MON4D3/LuaSnip',             tag = 'v2.*', lock = true },
-      { 'rafamadriz/friendly-snippets', lock = false },
+      { 'L3MON4D3/LuaSnip' },
+      { 'rafamadriz/friendly-snippets' },
     }
   }
 end)

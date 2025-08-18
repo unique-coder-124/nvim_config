@@ -4,14 +4,22 @@ vim.keymap.set("n", "<leader>ex", vim.cmd.Ex)
 -- mappings for moving current selection up or down
 local keysUp = {"K", "<M-k>", "<M-Up>"}
 local keysDown = {"J", "<M-j>", "<M-Down>"}
+local normalKeysUp = {"<M-k>", "<M-Up>"}
+local normalKeysDown = {"<M-j>", "<M-Down>"}
 
 for _, key in ipairs(keysUp) do
   vim.keymap.set("v", key, ":m '<-2<CR>gv=gv")
-  vim.keymap.set("n", key, "V:m '<-2<CR>gv=gv<C-c>")
 end
 
 for _, key in ipairs(keysDown) do
   vim.keymap.set("v", key, ":m '>+1<CR>gv=gv")
+end
+
+for _, key in ipairs(normalKeysUp) do
+  vim.keymap.set("n", key, "V:m '<-2<CR>gv=gv<C-c>")
+end
+
+for _, key in ipairs(normalKeysDown) do
   vim.keymap.set("n", key, "V:m '>+1<CR>gv=gv<C-c>")
 end
 

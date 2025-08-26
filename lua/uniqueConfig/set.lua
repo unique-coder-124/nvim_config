@@ -1,4 +1,5 @@
 vim.opt.guicursor = "a:block"
+vim.opt.virtualedit = "block"
 
 vim.opt.laststatus = 3
 

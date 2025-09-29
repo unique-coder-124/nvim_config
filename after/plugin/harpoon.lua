@@ -8,6 +8,6 @@ vim.keymap.set("n", "<C-m>", function() ui.nav_file(1) end)
 vim.keymap.set("n", "<C-s>", function() ui.nav_file(2) end)
 vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
 vim.keymap.set("n", "<C-t>", function() ui.nav_file(4) end)
-vim.keymap.set("n", "<C-h>", function() ui.nav_file(4) end)
+vim.keymap.set("n", "<C-h>", function() ui.nav_file(5) end)
 
 vim.keymap.set('n', '<leader>f', function() ui.nav_file(tonumber(vim.fn.input("File Index > "))) end)

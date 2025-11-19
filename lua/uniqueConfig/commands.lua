@@ -72,6 +72,97 @@ vim.api.nvim_create_user_command('Scratch', function()
 end,
 {})
 
+-- ----------------------------------------------------------------------------------------------------------
+
+local cache_file = vim.fn.stdpath('data') .. '/netrw_hide_pattern'
+
+local function read_patterns_from_file()
+  local patterns = {}
+  local f = io.open(cache_file, 'r')
+  if f then
+    for line in f:lines() do
+      local trimmed = line:match("^%s*(.-)%s*$")
+      if trimmed and trimmed ~= '' then
+        table.insert(patterns, trimmed)
+      end
+    end
+    f:close()
+  end
+  return patterns
+end
+
+local function write_patterns_to_file(patterns)
+  local f = io.open(cache_file, 'w')
+  if f then
+    f:write(table.concat(patterns, '\n'))
+    f:close()
+  end
+end
+
+local function refresh_netrw_windows()
+  local wins = vim.api.nvim_list_wins()
+  for _, win in ipairs(wins) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == 'netrw' then
+      vim.api.nvim_win_call(win, function()
+        vim.cmd('normal! \12') 
+      end)
+    end
+  end
+end
+
+local function apply_patterns()
+  local patterns = read_patterns_from_file()
+  
+  vim.g.netrw_list_hide = table.concat(patterns, ',')
+  vim.g.netrw_hide = 1 
+
+  refresh_netrw_windows()
+end
+
+local function edit_hide_config()
+  local patterns = read_patterns_from_file()
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_name(buf, "NETRW_HIDE_CONFIG")
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, patterns)
+  vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+  vim.api.nvim_buf_set_option(buf, 'filetype', 'conf')
+  
+  local width, height = 60, 10
+  local row = (vim.api.nvim_get_option('lines') - height) / 2
+  local col = (vim.api.nvim_get_option('columns') - width) / 2
+  
+  vim.api.nvim_open_win(buf, true, {
+    relative = 'editor', row = row, col = col, width = width, height = height,
+    border = 'single', style = 'minimal', title = " Netrw Ignore Patterns "
+  })
+
+  vim.api.nvim_create_autocmd('BufWipeout', {
+    buffer = buf, once = true,
+    callback = function()
+      local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+      local new_patterns = {}
+      for _, line in ipairs(lines) do
+        local trimmed = line:match("^%s*(.-)%s*$")
+        if trimmed and trimmed ~= '' then table.insert(new_patterns, trimmed) end
+      end
+      write_patterns_to_file(new_patterns)
+      apply_patterns() 
+      print("netrw: Patterns updated and applied.")
+    end
+  })
+  
+  local opts = { silent = true, noremap = true }
+  vim.api.nvim_buf_set_keymap(buf, 'n', '<CR>', ':wincmd q<CR>', opts)
+  vim.api.nvim_buf_set_keymap(buf, 'n', 'q', ':wincmd q<CR>', opts)
+end
+
+vim.api.nvim_create_user_command('EditHide', edit_hide_config, {})
+
+apply_patterns()
+
+-- ----------------------------------------------------------------------------------------------------------
+
 -- vim.api.nvim_create_user_command('UpdateClangdFlags', function(opts)
 --   local std_stuff = {}
 --   local common_lib = {}

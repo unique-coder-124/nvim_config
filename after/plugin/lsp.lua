@@ -67,7 +67,7 @@ lsp.on_attach(function(client, bufnr)
   vim.keymap.set("n", "<leader>vca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>vrr", vim.lsp.buf.references, opts)
   vim.keymap.set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-  vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+  vim.keymap.set("n", "<leader>h", vim.lsp.buf.signature_help, opts)
   vim.keymap.set({ "n", "i" }, "<M-d>", ToggleCMP, opts)
   vim.keymap.set("n", "<leader>vcd", function()
     local diag = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })[1]

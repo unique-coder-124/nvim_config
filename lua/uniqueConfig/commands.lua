@@ -1,3 +1,74 @@
+local function align_regex(pattern, opts)
+  local bufnr       = opts.buf or 0
+  local total_lines = vim.api.nvim_buf_line_count(bufnr)
+
+  local start_line, end_line
+  if opts.line1 == opts.line2 then
+    start_line = 1
+    end_line   = total_lines
+  else
+    start_line = opts.line1
+    end_line   = opts.line2
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(
+    bufnr,
+    start_line - 1,
+    end_line,
+    false
+  )
+
+  -- Find furthest match column
+  local max_width = 0
+
+  for _, line in ipairs(lines) do
+    local s = line:find(pattern)
+
+    if s then
+      local left = line:sub(1, s - 1)
+      local w = vim.fn.strdisplaywidth(left)
+
+      if w > max_width then
+        max_width = w
+      end
+    end
+  end
+
+  -- Rebuild lines
+  for i, line in ipairs(lines) do
+    local s, e = line:find(pattern)
+
+    if s then
+      local left  = line:sub(1, s - 1)
+      local match = line:sub(s, e)
+      local right = line:sub(e + 1)
+
+      local w = vim.fn.strdisplaywidth(left)
+
+      lines[i] =
+        left ..
+        string.rep(" ", max_width - w) ..
+        match ..
+        right
+    end
+  end
+
+  vim.api.nvim_buf_set_lines(
+    bufnr,
+    start_line - 1,
+    end_line,
+    false,
+    lines
+  )
+end
+
+vim.api.nvim_create_user_command("Align", function(opts)
+  align_regex(opts.args, opts)
+end, {
+  nargs = 1,
+  range = true,
+})
+
 local function align_backslashes(opts)
   local bufnr       = opts.buf or 0
   local total_lines = vim.api.nvim_buf_line_count(bufnr)
